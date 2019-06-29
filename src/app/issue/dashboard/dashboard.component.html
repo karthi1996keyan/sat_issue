@@ -1,0 +1,189 @@
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark  static-top" style="background:black">
+        <div class="container">
+              <nav class="navbar navbar-light ">
+                      <span class="navbar-brand mb-0 h1">Issue Tracking Tool</span>
+                    </nav>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+             
+              <li class="nav-item ml-5 custom-link">
+                <a class="nav-link" style="color:white" data-toggle="modal"  data-target=".bd-example-modal-lg" ><b>Create</b></a>
+              </li>
+              <li class="nav-item dropdown ml-5">
+                <a class="nav-link dropdown-toggle" style="color:white" href="#" id="navbardrop" data-toggle="dropdown">
+                    Profile
+                  </a>
+                  <div class="dropdown-menu">
+                      <p style="text-align:center">Profile Name</p>
+                    <a class="dropdown-item" href="#">Link 2</a>
+                    <a class="dropdown-item" href="#">Logout</a>
+                  </div>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+                <div class="modal-header">
+                        <h5 class="modal-title">Create Issue </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                            <form >
+                                    <div class="form-group">
+                                        <label for="title"><b>Title</b></label>
+                                        <input type="text" class="form-control " id="title" name="title" [(ngModel)]="title" #tit='ngModel' placeholder="Enter title" required=true>
+                                        <div [hidden]="tit.pristine || tit.valid" class="alert alert-info">
+                                            <div *ngIf="tit.errors?.required">
+                                              Please enter title of the issue
+                                            </div>
+                                        </div>                                       
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description"><b>Description</b></label>
+                                        <input type="text" class="form-control " id="description" name="description" [(ngModel)]="description" #descrip='ngModel' placeholder="Enter LastName" required=true>
+                                        <div [hidden]="descrip.pristine || descrip.valid" class="alert alert-info">
+                                          <div *ngIf="descrip.errors?.required">
+                                            Please enter description of the issue
+                                          </div>
+                                      </div>  
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status"><b>Status</b></label>
+                                        <select  class="form-control " name="status" [(ngModel)]="status" #stat='ngModel' required=true>
+                                          <option *ngFor="let data of allStatus" [value]="data">{{data}}</option>
+                                        </select>
+                                       
+                                        <div [hidden]="stat.pristine || stat.valid" class="alert alert-info">
+                                          <div *ngIf="stat.errors?.required">
+                                            Please enter status of the issue
+                                          </div>
+                                      </div>  
+                                     </div>
+                                  <div class="form-group">
+                                    <label for="assignedto"><b>Assigned TO</b></label>
+                                    <select  class="form-control " name="assignedTo" [(ngModel)]="assignedTo" #assign='ngModel' required=true>
+                                      <option *ngFor="let user of allUsers" [value]="user.userId">{{user.firstName}} {{user.lastName}}</option>
+                                    </select>
+                                   <div [hidden]="assign.pristine || assign.valid" class="alert alert-info">
+                                      <div *ngIf="assign.errors?.required">
+                                        Please assign to someone
+                                      </div>
+                                  </div>  
+                                  </div>
+                                
+                                  <div class="form-group" action="" method="POST" enctype="multipart/form-data" style="margin-bottom: 20px; height: auto;">
+                                    <label style="font-size: 25px; font-style: bold">Attachments</label>
+                                    <div class="custom-file mb-3">
+                                      <input type="file" name="file" id="file" class="custom-file-input" multiple ng2FileSelect [uploader]="uploader">
+                                      <label for="file" class="custom-file-label">Choose File</label>
+                                      <div class="uploadList" *ngFor="let item of uploader.queue">
+                                        <div class="col" style="padding: 5px">{{item.file.name}}</div>
+                                        <div class="col-sm-4" style="padding: 5px">
+                                          <div class="progress">
+                                            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                                          </div>
+                                        </div>
+                                        <div>
+                                          <button style="margin:20px" type="button" class="btn btn-dark" (click)="item.upload()">Upload</button>
+                                          <button  type="button" class="btn btn-danger" (click)="item.remove()">Cancel</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                    
+                          </form>
+                    
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">create</button>
+                          </div>
+          </div>
+        </div>
+      </div>      
+    
+<div class="container d-flex flex-wrap mt-5 ">
+       
+              <div class="card text-center m-3 w-50">
+                    <div class="card-header" style="background: black;opacity:0.8;color: white">
+                      Title of the issue
+                      
+                    </div>
+                    <div class="card-body">
+                            
+                        <h6 class="card-title "  > <b>Status : </b><span style="color:dodgerblue"><b>Backlog</b> </span> </h6>
+                       <h6 class="card-title" ><b>Reported By :</b> <span  > karthikeyan</span> </h6>
+                      <p class="card-text" style="color:grey">With supporting text below as a natural lead-in to additional content.</p>
+                      <a href="#" class="btn btn-danger">View</a>
+                    </div>
+                    <div class="card-footer text-muted" style="background: black;opacity:0.9;color: white!important">
+                      2 days ago
+                    </div>
+                  </div>
+                  
+              <div class="card text-center m-3 w-50">
+                    <div class="card-header" style="background: black;opacity:0.8;color: white">
+                      Title of the issue
+                      
+                    </div>
+                    <div class="card-body">
+                            
+                        <h6 class="card-title "  > <b>Status : </b><span style="color:dodgerblue"><b>Backlog</b> </span> </h6>
+                       <h6 class="card-title" ><b>Reported By :</b> <span  > karthikeyan</span> </h6>
+                      <p class="card-text" style="color:grey">With supporting text below as a natural lead-in to additional content.</p>
+                      <a href="#" class="btn btn-danger">View</a>
+                    </div>
+                    <div class="card-footer text-muted" style="background: black;opacity:0.9;color: white!important">
+                      2 days ago
+                    </div>
+                  </div>
+                  
+              <div class="card text-center m-3 w-50">
+                    <div class="card-header" style="background: black;opacity:0.8;color: white">
+                      Title of the issue
+                      
+                    </div>
+                    <div class="card-body">
+                            
+                        <h6 class="card-title "  > <b>Status : </b><span style="color:dodgerblue"><b>Backlog</b> </span> </h6>
+                       <h6 class="card-title" ><b>Reported By :</b> <span  > karthikeyan</span> </h6>
+                      <p class="card-text" style="color:grey">With supporting text below as a natural lead-in to additional content.</p>
+                      <a href="#" class="btn btn-danger">View</a>
+                    </div>
+                    <div class="card-footer text-muted" style="background: black;opacity:0.9;color: white!important">
+                      2 days ago
+                    </div>
+                  </div>
+
+              <div class="card text-center m-3 w-50">
+                    <div class="card-header" style="background: black;opacity:0.8;color: white">
+                      Title of the issue
+                      
+                    </div>
+                    <div class="card-body">
+                            
+                        <h6 class="card-title "  > <b>Status : </b><span style="color:dodgerblue"><b>Backlog</b> </span> </h6>
+                       <h6 class="card-title" ><b>Reported By :</b> <span  > karthikeyan</span> </h6>
+                      <p class="card-text" style="color:grey">With supporting text below as a natural lead-in to additional content.</p>
+                      <a href="#" class="btn btn-danger">View</a>
+                    </div>
+                    <div class="card-footer text-muted" style="background: black;opacity:0.9;color: white!important">
+                      2 days ago
+                    </div>
+                  </div>
+         
+</div>
+    
